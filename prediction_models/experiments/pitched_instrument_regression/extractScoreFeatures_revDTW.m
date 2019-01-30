@@ -95,7 +95,7 @@ features(1,15)=slopedev;
 vecDurFeat = DurHistScore(algndmidi, note_indices, note_altrd, Fs, timeStep);
 features(1,16:21)=vecDurFeat';
 features(1,22) = length(ShortNotes)*sum(numSampShortNotes)*timeStep / sum(algndmidi(:,7)); 
-% features(1, 23) = jump;
+features(1, 23:30) = aggregateFeatures(noteratio(path, scoreMid), 1);
 % features(1,23) = length(path);
 % features(1,24) = length(f0);
       
