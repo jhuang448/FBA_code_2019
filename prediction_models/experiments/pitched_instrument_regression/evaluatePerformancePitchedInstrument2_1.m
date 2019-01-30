@@ -13,6 +13,9 @@ if ifpYin == 1
     DATA_PATH = 'experiments/pitched_instrument_regression/dataPyin/';
 end
 
+load('feature_selection/3');
+feature_list = NewList(1:22);
+
 %flag: whether to combine features
 flag = 0;%set flag to 0: not combining features
 cmbf1 = ['middleAlto Saxophone5_Score_fixedrevDTW_' read_file_name1(end-3:end)];
@@ -118,8 +121,8 @@ end
 %train_features(:, 34) = log(train_features(:, 34)+1);
 %test_features(:, 34) = log(test_features(:, 34)+1);
 
-train_features = train_features(:, [1:22]);
-test_features = test_features(:, [1:22]);
+train_features = train_features(:, feature_list);
+test_features = test_features(:, feature_list);
 
 [train_features, test_features] = NormalizeFeatures(train_features, test_features);
 
