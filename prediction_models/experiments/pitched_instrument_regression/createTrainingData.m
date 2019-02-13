@@ -69,7 +69,7 @@ labels = zeros(num_students, num_labels);
 student_ids = audition_metadata.student_ids(1:num_students);
 
 % One student at a time.
-for student_idx = 52:num_students
+for student_idx =1:num_students
     disp(['Processing student: ' num2str(student_idx), ...
         ', student_id: ' num2str(student_ids(student_idx))]);   
     % Extract filename and other information

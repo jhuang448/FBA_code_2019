@@ -6,7 +6,7 @@ segment_option = 5;
 band_options = {'middle'};
 instrument_options = {'Alto Saxophone'};
 year_options = {'2015'};
-feature_options = {'std'};
+feature_options = {'score revDTW'};
 pitch_option = 'acf'; % options are 'pyin' and 'acf'
 quick = 0;
 if strcmp(pitch_option, 'pyin') == 1
@@ -36,8 +36,8 @@ for b = 1:length(band_options)
                 end
                 feature_filestring = [data_folder, band, instrument, ...
                     num2str(segment_option), '_', feature, '_', year, ...
-                    quick_string, '.mat'];
-                if exist(feature_filestring, 'file') ~= 2
+                    quick_string, 'mac.mat'];
+                %if exist(feature_filestring, 'file') ~= 2
                     [features, labels, student_ids] = createTrainingData(...
                         band, instrument, segment_option, year,...
                         pitch_option, feature, quick);
@@ -49,7 +49,7 @@ for b = 1:length(band_options)
                     end
                     
                     save(feature_filestring, 'features', 'labels', 'student_ids');
-                end
+                %end
                 
                 %warnwave
                 WarnWave = [sin(1:.6:400), sin(1:.7:400), sin(1:.4:400)];

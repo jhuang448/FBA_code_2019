@@ -1,0 +1,19 @@
+function checkFeatureRangeAfterNorm(file2013, file2014, file2015, ifpYin)
+
+DATA_PATH = 'experiments/pitched_instrument_regression/data/';
+if ifpYin == 1
+    DATA_PATH = 'experiments/pitched_instrument_regression/dataPyin/';
+end
+root_path = deriveRootPath();
+full_data_path = [root_path DATA_PATH];
+
+load([full_data_path file2013]);
+feature2013 = features;
+load([full_data_path file2014]);
+feature2014 = features;
+load([full_data_path file2015]);
+feature2015 = features;
+
+clear features;
+
+
