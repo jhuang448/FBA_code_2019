@@ -7,7 +7,7 @@
 %> @retval p path with matrix indices
 %> @retval C cost matrix
 % ======================================================================
-function [p, C, jump] = RevisedDtw(D, idx)
+function [p, C, jump, cost] = RevisedDtw(D, idx)
  
     % cost initialization
     C               = zeros(size(D));
@@ -18,6 +18,8 @@ function [p, C, jump] = RevisedDtw(D, idx)
     DeltaP(1,2:end) = 3; % (0,-1)
     DeltaP(2:end,1) = 2; % (-1,0)
     
+    jump = zeros(2,1);
+    cost = zeros(3,1);
     % penalty for jumping
     penalty = mean(D(:))*5;
     % flag: if allow jump
@@ -41,17 +43,30 @@ function [p, C, jump] = RevisedDtw(D, idx)
             C(n_A, n_B)                 = D(n_A,n_B) + fC_min;
         end
     end
-
-    jump = 0;
     
     % traceback
     iDec= [-1 -1; -1 0; 0 -1; -1 1; -1 2; -1 3; -1 4]; % compare DeltaP contents: diag, vert, hori
     p   = size(D);  % start with the last element
     n   = [size(D,1), size(D,2)]; %[n_A, n_B];
+    cmp = p(2)+1; % cmp is used to record the jump position
+    cost(3) = D(end, end);
     while ((n(1) > 1) || (n(2) > 1))
-        n = n + iDec(DeltaP(n(1),n(2)),:);
-        jump = jump + (DeltaP(n(1),n(2)) >= 4); %compute number of jumps
+
+        if DeltaP(n(1),n(2)) >= 4 % update jump
+            jump(1) = jump(1) + 1;
+            jump(2) = jump(2) + iDec(DeltaP(n(1),n(2)),2);
+            cmp = n(2);
+        end
+        
         % update path (final length unknown)
+        n = n + iDec(DeltaP(n(1),n(2)),:);
+        if (n(2) < cmp)
+            cost(3) = cost(3) + D(n(1),n(2));
+        else
+            cost(2) = cost(2) + D(n(1),n(2));
+        end
         p   = [n; p];
     end   
+    
+    cost(1) = C(end,end);
 end

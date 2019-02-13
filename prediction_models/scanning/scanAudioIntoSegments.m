@@ -10,6 +10,7 @@
 %                  N -> segment.
 function [audio_segments, Fs] = scanAudioIntoSegments(file_name, segments)
   [audio, Fs] = audioread(file_name);
+  audio = [zeros(1681, 1); audio]; % add silence at the beginning; OS consistency
   num_segments = size(segments, 1);
   audio_segments = cell(num_segments,1);
   for (segment_idx = 1:num_segments)

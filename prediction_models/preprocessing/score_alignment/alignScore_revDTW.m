@@ -61,11 +61,11 @@ wav_pitch_contour_in_midi(zeros_other) = [];
 % [~, ix, iy] = dtw(midi_mat(:,4), wav_pitch_contour_in_midi);
 D = wrappedDist(midi_mat(:,4), wav_pitch_contour_in_midi, 12);
 %[path, C] = ToolSimpleDtw(D);
-[path, C, jump] = RevisedDtw(D', idx);
+[path, C, jump, dtw_cost] = RevisedDtw(D', idx); % change the meaning of jump and dtw_cost and return by RevisedDTW
 C = C';
 path = [path(:, 2), path(:, 1)];
 
-dtw_cost = C(end,end);
+% dtw_cost = C(end,end);
 ix = path(:,1)';
 iy = path(:,2)';
 

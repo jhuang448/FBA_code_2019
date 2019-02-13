@@ -1,4 +1,4 @@
-function note_ratio = noteratio(path, midi_mat)
+function note_ratio = noteratio1(path, midi_mat)
 
 notelength_frame = find(path(2:end, 1)-path(1:end-1, 1));
 note_id = path([1; notelength_frame+1], 1);

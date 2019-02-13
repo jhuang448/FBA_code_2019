@@ -22,8 +22,7 @@ pitch_in_midi(pitch_in_midi~=0) = pitch_in_midi(pitch_in_midi~=0) - (tf/100);
 tfCompnstdF0 = pitch_in_midi;
 tfCompnstdF0(tfCompnstdF0~=0) = (2.^((pitch_in_midi(tfCompnstdF0~=0)-69)/12))*440;
 
-% jump number
-jump = 0;
+% jump: 2*1 vector, jump number & jump distance
 
 if flag == 1
     pitch_in_midi2(pitch_in_midi2~=0) = pitch_in_midi2(pitch_in_midi2~=0) + (tf/100);
@@ -88,14 +87,19 @@ features(1,11)=std(NormCountGreaterStdDev);
 features(1,12)=max(NormCountGreaterStdDev);
 features(1,13)=min(NormCountGreaterStdDev);
  
-features(1,14)=dtw_cost/length(path);
+features(1,14)=dtw_cost(1)/length(path);
 features(1,15)=slopedev;
  
 [note_indices] = computeNoteOccurence(scoreMid);
 vecDurFeat = DurHistScore(algndmidi, note_indices, note_altrd, Fs, timeStep);
 features(1,16:21)=vecDurFeat';
 features(1,22) = length(ShortNotes)*sum(numSampShortNotes)*timeStep / sum(algndmidi(:,7)); 
-features(1, 23:30) = aggregateFeatures(noteratio(path, scoreMid), 1);
+features(1,23) = dtw_cost(2)/length(path); % cost of jumped segments
+features(1,24) = dtw_cost(3)/length(path); % cost of other parts
+features(1,25) = jump(1); % number of jumps
+features(1,26) = jump(2); % distance of jumps
+features(1,27:30) = noteRatio(path, scoreMid(:, 6));% TODO note ratio? how to compute this
+% features(1, 23:30) = aggregateFeatures(noteratio(path, scoreMid), 1);
 % features(1,23) = length(path);
 % features(1,24) = length(f0);
       
