@@ -7,8 +7,8 @@ clc;
 % feature selection procedure. Maximum accuracy at each feature combination
 % is plotted in the end.
 
-DATA_PATH = 'experiments/pitched_instrument_regression/data/';
-write_file_name = 'middleAlto Saxophone5_score revDTWnoteRatio_201';
+DATA_PATH = 'experiments/pitched_instrument_regression/dataPyin/';
+write_file_name = 'middleAlto Saxophone5_score revDTW_fullset0219_201';
 
 % Check for existence of path for reading stored features and labels.
 root_path = deriveRootPath();
@@ -44,7 +44,7 @@ NUM_FOLDS = size(features_a, 1);
 % % features=featuresCombined;
 
 % Choose the label on which assessment is needed.
-l_id = 3;
+l_id = 3; % 3: rhythmic accuracy
 labels = labels(:,l_id); %labels(:,2),labels(:,3)
 
 % Evaluate model using cross validation.
@@ -122,7 +122,7 @@ display(AccuList(end));
 Regr(1,3)=AccuList(end);
 Regr(2,3)=p_max;
 
-save('feature_selection/3','NewList', 'AccuList');
+save('feature_selection/1full0212','NewList', 'AccuList');
 
 %{
 % greedy feature combination: backward direction
