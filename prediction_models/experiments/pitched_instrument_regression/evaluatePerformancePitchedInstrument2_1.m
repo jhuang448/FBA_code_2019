@@ -121,8 +121,8 @@ end
 %train_features(:, 34) = log(train_features(:, 34)+1);
 %test_features(:, 34) = log(test_features(:, 34)+1);
 
-train_features = train_features(:, [1:22]);
-test_features = test_features(:, [1:22]);
+train_features = train_features(:, [1:30]);
+test_features = test_features(:, [1:30]);
 
 [train_features, test_features] = NormalizeFeatures(train_features, test_features);
 

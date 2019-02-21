@@ -31,7 +31,7 @@ elseif strcmp(FEATURE_TYPE, 'nonscore')
 elseif strcmp(FEATURE_TYPE, 'score') 
     NUM_FEATURES = 22;
 elseif strcmp(FEATURE_TYPE, 'score revDTW')
-    NUM_FEATURES = 33; 
+    NUM_FEATURES = 36; 
 else
     warning('Invalid FEATURE_TYPE. Computing non-score based features')
     NUM_FEATURES = 24; 
@@ -124,9 +124,9 @@ for student_idx =1:num_students
     end
     labels(student_idx, :) = segment_assessments;
     
-    if(mod(student_idx, 10) == 0)
-        sound(randn(4096, 1), 8192);
-    end
+    %if(mod(student_idx, 10) == 0)
+    %    sound(randn(4096, 1), 8192);
+    %end
 end
 
 end

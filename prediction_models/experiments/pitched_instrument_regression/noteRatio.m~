@@ -2,8 +2,6 @@ function retV = noteRatio(path, onsetMidi, iftempo)
 % compute 'note ratio' features
 % the weighted mean and weighted std of the ratio vectors
 
-% 0220mix
-
 l = size(path, 1);
 frameEnd = path(end, 2);
 
@@ -45,13 +43,10 @@ v_wnote = tempoPerBeats(frame, 4, iftempo);
 %{
 subplot(3,1,1);
 plot(v_qnote);
-ylim([0 0.02]);
 subplot(3,1,2);
 plot(v_hnote);
-ylim([0 0.02]);
 subplot(3,1,3);
 plot(v_wnote);
-ylim([0 0.02]);
 close(gcf);
 %}
 

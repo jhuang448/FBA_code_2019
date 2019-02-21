@@ -74,11 +74,11 @@ end
 all_features = [features1; features2; features3];
 all_labels = [labels1; labels2; labels3];
 
-mtc = zeros(4, 4, 4);
+mtc = zeros(4, 11, 4);
 
 for i = 1:4
-    %for j = 23:26
-        [Rsq, S, p, r] = crossValidation(all_labels(:, i), all_features(:, :), NUM_FOLDS);
+    %for j = 23:33
+        [Rsq, S, p, r] = crossValidation(all_labels(:, i), all_features(:, [1:28]), NUM_FOLDS);
         %mtc(i, j-22, :) = [Rsq, S, p, r];
         fprintf(['\nResults complete.\nR squared: ' num2str(Rsq) ...
                  '\nStandard error: ' num2str(S) '\nP value: ' num2str(p) ...
