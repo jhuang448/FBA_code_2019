@@ -45,6 +45,7 @@ wav_pitch_contour_in_midi = wav_pitch_contour_in_midi(lead_trail_z(1):lead_trail
 zeros_other = find(wav_pitch_contour_in_midi == 0);
 
 %¡¾¡¿
+idx_notzero = find(wav_pitch_contour_in_midi ~= 0);
 notzero = (wav_pitch_contour_in_midi~=0);
 noteafterpause = [0 (diff(notzero) == 1)];
 tmp = find(diff([zeros_other zeros_other(end)+2]) ~= 1);
@@ -63,7 +64,7 @@ D = wrappedDist(midi_mat(:,4), wav_pitch_contour_in_midi, 12);
 %[path, C] = ToolSimpleDtw(D);
 [path, C, jump, dtw_cost] = RevisedDtw(D', idx); % change the meaning of jump and dtw_cost and return by RevisedDTW
 C = C';
-path = [path(:, 2), path(:, 1)];
+path = [path(:, 2), path(:, 1), idx_notzero(path(:, 1))'];
 
 % dtw_cost = C(end,end);
 ix = path(:,1)';
