@@ -2,11 +2,11 @@
 % script to compute and save training data in different configurations
 
 % specify configuration
-segment_option = 5;
+segment_option = 2;
 band_options = {'middle'};
 instrument_options = {'Alto Saxophone'};
 year_options = {'2013', '2014', '2015'};
-feature_options = {'score revDTW'};
+feature_options = {'std', 'nonscore', 'score revDTW'};
 pitch_option = 'pyin'; % options are 'pyin' and 'acf'
 quick = 0;
 forcerun = 1;
@@ -36,7 +36,7 @@ for b = 1:length(band_options)
                     quick_string = '';
                 end
                 feature_filestring = [data_folder, band, instrument, ...
-                    num2str(segment_option), '_', feature, '_noteratio0220mix_', year, ...
+                    num2str(segment_option), '_', feature, '_fullset_', year, ...
                     quick_string, '.mat'];
                 if exist(feature_filestring, 'file') ~= 2 | forcerun == 1
                     [features, labels, student_ids] = createTrainingData(...
@@ -45,7 +45,7 @@ for b = 1:length(band_options)
                     
                     % tone quality, 2015 has a different score range with
                     % other years
-                    if strcmp(year, '2015') == 1
+                    if strcmp(year, '2015') == 1 && segment_option == 5
                         labels(:, 4) = labels(:, 4)/2;
                     end
                     

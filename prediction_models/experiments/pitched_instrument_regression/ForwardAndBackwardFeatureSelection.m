@@ -9,7 +9,7 @@ warning off;
 % is plotted in the end.
 
 DATA_PATH = 'experiments/pitched_instrument_regression/feature_selection/';
-write_file_name = 'featuresFullset135';
+write_file_name = 'featuresFullset135_tech';
 
 % Check for existence of path for reading stored features and labels.
 root_path = deriveRootPath();
@@ -48,7 +48,7 @@ NUM_FOLDS = 5; % size(features_a, 1);
 % % features=featuresCombined;
 
 % Choose the label on which assessment is needed.
-for l_id = 2:4 % 3: rhythmic accuracy
+for l_id = 1:4 % 3: rhythmic accuracy
     
     labels_i = labels(:,l_id); %labels(:,2),labels(:,3)
 
@@ -71,7 +71,7 @@ for l_id = 2:4 % 3: rhythmic accuracy
     end
 
     % first select feature with maximum correlation coefficient
-    [val,loc]=max(r);
+    [val,loc]=max(Rsq);
     display('Single feature ranking result');
     display(val);
     display('P value');
@@ -105,7 +105,7 @@ for l_id = 2:4 % 3: rhythmic accuracy
         AccuArr=zeros(length(featureList),1);
 
         for iter=1:length(featureList)
-            [Rsq(iter), S(iter), p(iter), AccuArr(iter)]=crossValidation(labels_i, [features(:,featureList(iter)) features(:,NewList')],NUM_FOLDS);
+            [AccuArr(iter), S(iter), p(iter), r(iter)]=crossValidation(labels_i, [features(:,featureList(iter)) features(:,NewList')],NUM_FOLDS);
 
         end
 
@@ -130,7 +130,7 @@ for l_id = 2:4 % 3: rhythmic accuracy
     Regr(1,3)=AccuList(end);
     Regr(2,3)=p_max;
 
-    save('feature_selection/' + string(l_id) + 'forward_fullset0227','NewList', 'AccuList');
+    save('feature_selection/' + string(l_id) + 'forward_fullset_tech','NewList', 'AccuList');
 
 end
 %{

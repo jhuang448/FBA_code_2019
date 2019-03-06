@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 matDir = '/Users/caspia/Desktop/Github/FBA_code_2019/src/prediction_models/experiments/pitched_instrument_regression/dataPyin/'
 os.chdir(matDir)
-
+'''
 FeatureList = {'middleAlto Saxophone5_std_': np.arange(68), \
                'middleAlto Saxophone5_nonscore_': np.arange(24), \
                'middleAlto Saxophone5_score revDTW_noteratio0220_': np.arange(26), \
@@ -25,7 +25,12 @@ FeatureList = {'middleAlto Saxophone5_std_': np.arange(68), \
                'middleAlto Saxophone5_score revDTW_fullset0220_': np.arange(26, 32), \
                'middleAlto Saxophone5_score revDTW_noteratio0220mix_': np.arange(32, 36) \
                }
-FeatureNum = 68+24+26+7+6+4
+'''
+FeatureList = {'middleAlto Saxophone2_std_': np.arange(68), \
+               'middleAlto Saxophone2_nonscore_': np.arange(24), \
+               'middleAlto Saxophone2_score revDTW_fullset_': np.arange(43)
+               }
+FeatureNum = 68+24+22+4+7+6+4
 DataSize = {2013: 120, 2014: 149, 2015: 122}
 
 def combineAllFeatures():

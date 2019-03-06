@@ -1,4 +1,4 @@
-function retV = noteRatio(path, onsetMidi, iftempo)
+function [retV, num_Inf] = noteRatio(path, onsetMidi, iftempo)
 % compute 'note ratio' features
 % the weighted mean and weighted std of the ratio vectors
 
@@ -37,7 +37,7 @@ noteMidi = diff(onsetMidi);
 
 % v_note: assume time signature is 4/4 or 2/4
 [beat, frame] = convertToBeat(noteMidi', noteAudio);
-[v_qnote, infn] = tempoPerBeats(frame, 1, iftempo);
+[v_qnote, num_Inf] = tempoPerBeats(frame, 1, iftempo);
 v_hnote = tempoPerBeats(frame, 2, iftempo);
 v_wnote = tempoPerBeats(frame, 4, iftempo);
 
