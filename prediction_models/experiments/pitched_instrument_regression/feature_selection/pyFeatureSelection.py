@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 matDir = '/Users/caspia/Desktop/Github/FBA_code_2019/src/prediction_models/experiments/pitched_instrument_regression/dataPyin/'
 os.chdir(matDir)
-'''
+
 FeatureList = {'middleAlto Saxophone5_std_': np.arange(68), \
                'middleAlto Saxophone5_nonscore_': np.arange(24), \
                'middleAlto Saxophone5_score revDTW_noteratio0220_': np.arange(26), \
@@ -29,7 +29,7 @@ FeatureList = {'middleAlto Saxophone5_std_': np.arange(68), \
 FeatureList = {'middleAlto Saxophone2_std_': np.arange(68), \
                'middleAlto Saxophone2_nonscore_': np.arange(24), \
                'middleAlto Saxophone2_score revDTW_fullset_': np.arange(43)
-               }
+               }'''
 FeatureNum = 68+24+22+4+7+6+4
 DataSize = {2013: 120, 2014: 149, 2015: 122}
 
@@ -62,14 +62,40 @@ def runPCA(features):
     
     plt.figure(figsize=(200,200))
     mtx = np.cov(features.T)
+    mtx = np.abs(mtx)
     plt.matshow(mtx)
+    plt.colorbar()
     
     principalComponents = pca.fit_transform(features)
+    trans = pca.components_.T
+    plt.matshow(np.abs(pca.components_[0:5, :]),cmap='viridis')
+    plt.yticks([0,1,2],['1st Comp','2nd Comp','3rd Comp'],fontsize=10)
+    plt.colorbar()
+    plt.show()
     
-    return v_ratio, principalComponents
+    # 0: 118:end
+    # 1: 124:end
+    # 2: 116:end
+    st = np.array([118, 124, 116, 130, 131]) # sight-reading
+    #st = np.array([117,117,123,128,128]) # technical
+    i_group = []
+    
+    for i in np.arange(5):
+        print(i)
+        B = np.sort(np.abs(trans[:, i]))
+        I = np.argsort(np.abs(trans[:, i]))
+        i_group.append(I[st[i]:])
+        plt.plot(B, '*')
+        plt.plot([st[i], st[i]], [0, 0.20], '-')
+        plt.show()
+        #plt.matshow(mtx[st[i]:,st[i]:])
+        #plt.colorbar()
+        #plt.show()
+
+    return v_ratio, trans, i_group
     
 
 if __name__ == '__main__':
     features, labels, student_ids = combineAllFeatures()
-    v_ratio, pcaFeatures = runPCA(features)
+    v_ratio, trans, groups = runPCA(features)
         
