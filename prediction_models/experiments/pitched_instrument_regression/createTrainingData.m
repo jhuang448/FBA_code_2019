@@ -31,7 +31,7 @@ elseif strcmp(FEATURE_TYPE, 'nonscore')
 elseif strcmp(FEATURE_TYPE, 'score') 
     NUM_FEATURES = 22;
 elseif strcmp(FEATURE_TYPE, 'score revDTW')
-    NUM_FEATURES = 43; 
+    NUM_FEATURES = 51; 
 else
     warning('Invalid FEATURE_TYPE. Computing non-score based features')
     NUM_FEATURES = 24; 

@@ -55,6 +55,7 @@ end
 NoteAvgDevFromRef = zeros(1,rwStu); NoteStdDevFromRef = zeros(1,rwStu); NormCountGreaterStdDev = zeros(1,rwStu);
 ShortNotes = [];
 numSampShortNotes = [];
+
 for i=1:rwStu
     strtTime = round(algndmidi(i,6)/timeStep);
     endTime = round(algndmidi(i,6)/timeStep + algndmidi(i,7)/timeStep-1);
@@ -70,6 +71,7 @@ end
 NoteAvgDevFromRef(ShortNotes) = [];
 NoteStdDevFromRef(ShortNotes) = [];
 NormCountGreaterStdDev(ShortNotes) = [];
+[amp_hist_feature, ampenv_peaks] = computeDynamicFeatures(algndmidi(:, [6,7]), audio, Fs);
 
 features(1,1) = sum(algndmidi(:,7))/(sum(algndmidi(:,7))+sum(algndmidi(note_altrd+1,6)-(algndmidi(note_altrd,6)+algndmidi(note_altrd,7))));  % sum of silences between the number of notes in the score and the student (inserted notes)
 features(1,2)=mean(NoteAvgDevFromRef);
@@ -93,7 +95,7 @@ features(1,15)=slopedev;
 [note_indices] = computeNoteOccurence(scoreMid);
 vecDurFeat = DurHistScore(algndmidi, note_indices, note_altrd, Fs, timeStep);
 features(1,16:21)=vecDurFeat';
-features(1,22) = length(ShortNotes)*sum(numSampShortNotes)*timeStep / sum(algndmidi(:,7)); 
+features(1,22) = sum(numSampShortNotes)*timeStep / sum(algndmidi(:,7)); % 
 features(1,23) = dtw_cost(2)/length(path); % cost of jumped segments
 features(1,24) = dtw_cost(3)/length(path); % cost of other parts
 features(1,25) = jump(1); % number of jumps
@@ -106,4 +108,14 @@ features(1,34:43) = noteRatio(path(:, [1, 3]), [scoreMid(:, 1); scoreMid(end, 1)
 % features(1,23) = length(path);
 % features(1,24) = length(f0);
       
+features(1,44)=mean(amp_hist_feature);
+features(1,45)=std(amp_hist_feature);
+features(1,46)=max(amp_hist_feature);
+features(1,47)=min(amp_hist_feature);
+
+features(1,48)=mean(ampenv_peaks);
+features(1,49)=std(ampenv_peaks);
+features(1,50)=max(ampenv_peaks);
+features(1,51)=min(ampenv_peaks);
+
 end
