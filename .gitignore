@@ -1,2 +1,5 @@
 prediction_models/experiments/pitched_instrument_regression/dataPyin/
 prediction_models/experiments/pitched_instrument_regression/data/
+src/prediction_models/experiments/pitched_instrument_regression/feature_debugging/
+.DS_Store
+*/.DS_Store

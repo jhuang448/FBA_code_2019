@@ -14,10 +14,12 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import tight_layout
 
 matDir = '/Users/caspia/Desktop/Github/FBA_code_2019/src/prediction_models/experiments/pitched_instrument_regression/dataPyin/'
 os.chdir(matDir)
 
+'''
 FeatureList = {'middleAlto Saxophone5_std_': np.arange(68), \
                'middleAlto Saxophone5_nonscore_': np.arange(24), \
                'middleAlto Saxophone5_score revDTW_0322fullset_': np.arange(26), \
@@ -25,12 +27,13 @@ FeatureList = {'middleAlto Saxophone5_std_': np.arange(68), \
                'middleAlto Saxophone5_score revDTW_fullset0220_': np.arange(26, 32), \
                'middleAlto Saxophone5_score revDTW_noteratio0220mix_': np.arange(32, 36) \
                }
-'''
+
 FeatureList = {'middleAlto Saxophone2_std_': np.arange(68), \
                'middleAlto Saxophone2_nonscore_': np.arange(24), \
                'middleAlto Saxophone2_score revDTW_0322fullset_': np.arange(43)
                }'''
-FeatureNum = 68+24+22+4+7+6+4
+FeatureList = {'middleAlto Saxophone5_score revDTW_0327fullsetwithdDyn_': np.concatenate([np.arange(26), np.arange(41,51)])}
+FeatureNum = 36 # 68+24+22+4+7+6+4
 DataSize = {2013: 120, 2014: 149, 2015: 122}
 # Npitch 1
 # Spitch 1
@@ -43,7 +46,13 @@ DataSize = {2013: 120, 2014: 149, 2015: 122}
 # Sjump
 ## Snlr3
 # Snlr4
-subIndex = np.array([69,70,71,72, \
+subIndex = np.array([1,2,3,4,5,6,7,8,\
+                     13,22,23,14,24,25,\
+                     0,21,34,35,\
+                     15,16,17,18,19,20,\
+                     26,27,28,29,30,31,32,33])
+'''
+np.array([69,70,71,72, \
                      93,94,95,96, \
                      97,98,99,100, \
                      77,78,79,80, \
@@ -54,7 +63,7 @@ subIndex = np.array([69,70,71,72, \
                      114,115,116,117, \
                      #125,126,127,128,129,130, \
                      133,134])
-
+'''
 def combineAllFeatures():
     AllFeatures = np.empty(shape = [0, FeatureNum])
     AllLabels = np.empty(shape = [0, 4])
@@ -73,33 +82,53 @@ def combineAllFeatures():
     return AllFeatures, AllLabels, AllIds
             
 def runPCA(features):
-    plt.figure()
+    hfont = {'fontname':'Arial'}
+    fig = plt.figure()
     features = StandardScaler().fit_transform(features)
     pca = PCA()
     pca.fit(features)
     v_ratio = pca.explained_variance_ratio_
     y_pos = np.arange(len(v_ratio))
-    plt.bar(y_pos, v_ratio, align='center', alpha=0.5)
-    plt.title('Explained Variance (Ratio) - Sight-reading Exercise')
+    plt.bar(y_pos+1, v_ratio, align='center', alpha=0.5)
+    plt.xlabel('Component Index',fontsize = 15, **hfont)
+    plt.ylabel('Explained Variance',fontsize = 15, **hfont)
     plt.show()
+    fig.savefig("/Users/caspia/Documents/explained_var_sr.pdf", bbox_inches='tight')
     
-    plt.figure(figsize=(2000,2000))
+    fig = plt.figure(figsize=(18,18))
     mtx = np.cov(features.T)
     mtx[mtx>1] = 1
     mtx = np.abs(mtx)
-    plt.matshow(mtx)
-    plt.title('Covariance Matrix - Sight-reading Exercise',y=1.15)
-    plt.colorbar()
-    plt.figure()
+    im = plt.matshow(mtx)
+    plt.yticks([4,9,14,19,24,29], [5,10,15,20,25,30], fontsize = 12,**hfont)
+    plt.xticks([4,9,14,19,24,29], [5,10,15,20,25,30], fontsize = 12,**hfont)
+    plt.xlabel('Feature Index',fontsize = 15, **hfont)
+    plt.ylabel('Feature Index',fontsize = 15, **hfont)
+    plt.gca().xaxis.set_label_position('top')
+    cbar=plt.colorbar(im,fraction=0.046, pad=0.04)
+    cbar.ax.tick_params(labelsize=12) 
+    fig = plt.gcf()
+    fig.savefig("/Users/caspia/Documents/cov_sr.pdf", bbox_inches='tight')
+    fig = plt.figure(figsize=(600,600))
     
     principalComponents = pca.fit_transform(features)
     trans = pca.components_.T
-    plt.matshow(np.abs(pca.components_[0:4, :]),cmap='viridis')
-    plt.yticks([0,1,2,3],['1st Comp','2nd Comp','3rd Comp', '4th Comp'],fontsize=10)
-    plt.colorbar()
+    p = np.abs(pca.components_[0:5, :])
+    #p[p<0.25] = 0
+    im = plt.matshow(p,cmap='viridis')
+    plt.xlabel('Feature Index',fontsize = 18, **hfont)
+    plt.gca().xaxis.set_label_position('top')
+    plt.yticks([0,1,2,3,4],['1st Comp','2nd Comp','3rd Comp', '4th Comp', '5th Comp'],fontsize=12, **hfont)
+    plt.xticks([4,9,14,19,24,29], [5,10,15,20,25,30], fontsize = 12, **hfont)
+    cbar=plt.colorbar(im)
+    cbar.ax.tick_params(labelsize=12) 
     plt.clim(0, 0.4)
-    plt.title('Principal Components Composition - Sight-reading Exercise', y=1.25)
+    fig = plt.gcf()
+    fig.savefig("/Users/caspia/Documents/compo_sr.pdf", bbox_inches='tight')
+    
     plt.show()
+    
+    
     
     
     # 0: 118:end

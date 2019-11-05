@@ -20,6 +20,9 @@ SLASH_TYPE = getSlashType();
 ROOT_PATH = deriveRootPath();
 FBA_DATA_FOLDER = 'FBA2013data';
 
+count_num = 0;
+count_second = 0;
+
 % define constants
 HOP_SIZE = 256;
 WINDOW_SIZE = 1024;
@@ -115,6 +118,9 @@ for student_idx =1:num_students
             extractScoreFeatures_revDTW(normalized_audio, f0, RESAMPLE_FS, WINDOW_SIZE, HOP_SIZE, score_path, NUM_FEATURES);
     end
     
+    count_num = count_num + 1;
+    count_second = count_second + numel(normalized_audio)/Fs;
+    
     % Store all assessments.
     %% TODO: complete this for other segments
     if SEGMENT_OPTION == 2 || SEGMENT_OPTION == 5
@@ -128,5 +134,6 @@ for student_idx =1:num_students
     %    sound(randn(4096, 1), 8192);
     %end
 end
-
+disp(count_num);
+disp(count_second);
 end

@@ -2,12 +2,12 @@
 clear all;
 
 I_tech = [];
-for i = 1:3 % ignore tone quality
-    load(string(i) + 'forward_fullset_tech');
+for i = 1 % ignore tone quality
+    load(string(i) + 'forward_fullset0327_tech');
     [B, I] = sort(NewList);
     I_tech = [I_tech I];
 end
-first50_tech = sum(I_tech<=13, 2);
+first50_tech = sum(I_tech<=10, 2);
 sum_tech = sum(I_tech, 2);
 %figure(1);
 %plot(sum_tech, '*');
@@ -16,12 +16,12 @@ sum_tech = sum(I_tech, 2);
 %hold off;
 
 I_sr = [];
-for i = 1:3
-    load(string(i) + 'forward_fullset_sr');
+for i = 1
+    load(string(i) + 'forward_fullset0327_sr');
     [B, I] = sort(NewList);
     I_sr = [I_sr I];
 end
-first50_sr = sum(I_sr<=13, 2);
+first50_sr = sum(I_sr<=10, 2);
 sum_sr = sum(I_sr, 2);
 %figure(2);
 %plot(sum_sr, '*');

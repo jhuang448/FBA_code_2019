@@ -2,11 +2,11 @@
 % script to compute and save training data in different configurations
 
 % specify configuration
-segment_option = 2;
+segment_option = 5;
 band_options = {'middle'};
 instrument_options = {'Alto Saxophone'};
 year_options = {'2013','2014','2015'};
-feature_options = {'score revDTW'};
+feature_options = {'count'};
 pitch_option = 'pyin'; % options are 'pyin' and 'acf'
 quick = 0;
 forcerun = 1;
@@ -49,7 +49,7 @@ for b = 1:length(band_options)
                         labels(:, 4) = labels(:, 4)/2;
                     end
                     
-                    save(feature_filestring, 'features', 'labels', 'student_ids');
+                    %save(feature_filestring, 'features', 'labels', 'student_ids');
                 end
                 
                 %warnwave
