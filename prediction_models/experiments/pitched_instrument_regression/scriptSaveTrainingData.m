@@ -6,7 +6,7 @@ segment_option = 5;
 band_options = {'middle'};
 instrument_options = {'Alto Saxophone'};
 year_options = {'2013','2014','2015'};
-feature_options = {'count'};
+feature_options = {'score revDTW'};
 pitch_option = 'pyin'; % options are 'pyin' and 'acf'
 quick = 0;
 forcerun = 1;
@@ -36,7 +36,7 @@ for b = 1:length(band_options)
                     quick_string = '';
                 end
                 feature_filestring = [data_folder, band, instrument, ...
-                    num2str(segment_option), '_', feature, '_0327fullsetwithdDyn_', year, ...
+                    num2str(segment_option), '_', feature, '_SightReading_', year, ...
                     quick_string, '.mat'];
                 if exist(feature_filestring, 'file') ~= 2 | forcerun == 1
                     [features, labels, student_ids] = createTrainingData(...

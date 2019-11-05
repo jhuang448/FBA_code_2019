@@ -73,49 +73,49 @@ NoteStdDevFromRef(ShortNotes) = [];
 NormCountGreaterStdDev(ShortNotes) = [];
 [amp_hist_feature, ampenv_peaks] = computeDynamicFeatures(algndmidi(:, [6,7]), audio, Fs);
 
-features(1,1) = sum(algndmidi(:,7))/(sum(algndmidi(:,7))+sum(algndmidi(note_altrd+1,6)-(algndmidi(note_altrd,6)+algndmidi(note_altrd,7))));  % sum of silences between the number of notes in the score and the student (inserted notes)
-features(1,2)=mean(NoteAvgDevFromRef);
-features(1,3)=std(NoteAvgDevFromRef);
-features(1,4)=max(NoteAvgDevFromRef);
-features(1,5)=min(NoteAvgDevFromRef);
+% Group (in the paper): Pitch
+features(1,1)=mean(NoteAvgDevFromRef);
+features(1,2)=std(NoteAvgDevFromRef);
+features(1,3)=max(NoteAvgDevFromRef);
+features(1,4)=min(NoteAvgDevFromRef);
  
-features(1,6)=mean(NoteStdDevFromRef);
-features(1,7)=std(NoteStdDevFromRef);
-features(1,8)=max(NoteStdDevFromRef);
-features(1,9)=min(NoteStdDevFromRef); 
- 
-features(1,10)=mean(NormCountGreaterStdDev);
-features(1,11)=std(NormCountGreaterStdDev);
-features(1,12)=max(NormCountGreaterStdDev);
-features(1,13)=min(NormCountGreaterStdDev);
- 
-features(1,14)=dtw_cost(1)/length(path);
-features(1,15)=slopedev;
- 
+features(1,5)=mean(NoteStdDevFromRef);
+features(1,6)=std(NoteStdDevFromRef);
+features(1,7)=max(NoteStdDevFromRef);
+features(1,8)=min(NoteStdDevFromRef); 
+
+% Group: DTW cost
+features(1,9)=dtw_cost(1)/length(path);
+features(1,10) = dtw_cost(2)/length(path); % cost of jumped segments
+features(1,11) = dtw_cost(3)/length(path); % cost of other parts
+
+% Group: Tempo var.
+features(1,12)=slopedev;
+features(1,13) = jump(1); % number of jumps
+features(1,14) = jump(2); % distance of jumps
+
+% Group: NIR, NDR
+features(1,15) = sum(algndmidi(:,7))/(sum(algndmidi(:,7))+sum(algndmidi(note_altrd+1,6)-(algndmidi(note_altrd,6)+algndmidi(note_altrd,7))));
+features(1,16) = sum(numSampShortNotes)*timeStep / sum(algndmidi(:,7));
+
+% Group: Tempo (local)
+noteRatio_tmp = noteRatio(path(:, [1, 3]), [scoreMid(:, 1); scoreMid(end, 1) + scoreMid(end, 2)], 0);
+features(1,17:18) = noteRatio_tmp(9:10);
+
+% Group: Tempo (IOI)
 [note_indices] = computeNoteOccurence(scoreMid);
 vecDurFeat = DurHistScore(algndmidi, note_indices, note_altrd, Fs, timeStep);
-features(1,16:21)=vecDurFeat';
-features(1,22) = sum(numSampShortNotes)*timeStep / sum(algndmidi(:,7)); % 
-features(1,23) = dtw_cost(2)/length(path); % cost of jumped segments
-features(1,24) = dtw_cost(3)/length(path); % cost of other parts
-features(1,25) = jump(1); % number of jumps
-features(1,26) = jump(2); % distance of jumps
-[tmp, num_Inf] = noteRatio(path(:, [1, 3]), [scoreMid(:, 1); scoreMid(end, 1) + scoreMid(end, 2)], 1);
-features(1,27:32) = tmp(1:6);
-features(33) = num_Inf;
-features(1,34:43) = noteRatio(path(:, [1, 3]), [scoreMid(:, 1); scoreMid(end, 1) + scoreMid(end, 2)], 0);% TODO note ratio? how to compute this
-% features(1, 23:30) = aggregateFeatures(noteratio(path, scoreMid), 1);
-% features(1,23) = length(path);
-% features(1,24) = length(f0);
-      
-features(1,44)=mean(amp_hist_feature);
-features(1,45)=std(amp_hist_feature);
-features(1,46)=max(amp_hist_feature);
-features(1,47)=min(amp_hist_feature);
+features(1,19:24) = vecDurFeat';
 
-features(1,48)=mean(ampenv_peaks);
-features(1,49)=std(ampenv_peaks);
-features(1,50)=max(ampenv_peaks);
-features(1,51)=min(ampenv_peaks);
+% Group: Dynamics
+features(1,25)=mean(amp_hist_feature);
+features(1,26)=std(amp_hist_feature);
+features(1,27)=max(amp_hist_feature);
+features(1,28)=min(amp_hist_feature);
+
+features(1,29)=mean(ampenv_peaks);
+features(1,30)=std(ampenv_peaks);
+features(1,31)=max(ampenv_peaks);
+features(1,32)=min(ampenv_peaks);
 
 end

@@ -38,8 +38,8 @@ else
     %duration feats
     peakCrest1 = IOIPeakCrest(h1_norm, xcenters1);
     binDiff1 = mean(diff(xcenters1));
-    skew1 = FeatureSpectralSkewness(h1_norm','');%, fs);% use old feature computation method
-    kurto1 = FeatureSpectralKurtosis(h1_norm','');%, fs);
+    skew1 = FeatureSpectralSkewness(h1_norm', fs);% use old feature computation method
+    kurto1 = FeatureSpectralKurtosis(h1_norm', fs);
     rolloff1 = FeatureSpectralRolloff(h1_norm', fs, 0.85);
     % flatness1 = FeatureSpectralFlatness(h1_norm', fs);
     tonalPower1 = FeatureSpectralTonalPowerRatio(h1_norm', fs);

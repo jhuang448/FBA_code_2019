@@ -19,51 +19,10 @@ from matplotlib.pyplot import tight_layout
 matDir = '/Users/caspia/Desktop/Github/FBA_code_2019/src/prediction_models/experiments/pitched_instrument_regression/dataPyin/'
 os.chdir(matDir)
 
-'''
-FeatureList = {'middleAlto Saxophone5_std_': np.arange(68), \
-               'middleAlto Saxophone5_nonscore_': np.arange(24), \
-               'middleAlto Saxophone5_score revDTW_0322fullset_': np.arange(26), \
-               'middleAlto Saxophone5_score revDTW_fullset0219_': np.arange(26, 33), \
-               'middleAlto Saxophone5_score revDTW_fullset0220_': np.arange(26, 32), \
-               'middleAlto Saxophone5_score revDTW_noteratio0220mix_': np.arange(32, 36) \
-               }
-
-FeatureList = {'middleAlto Saxophone2_std_': np.arange(68), \
-               'middleAlto Saxophone2_nonscore_': np.arange(24), \
-               'middleAlto Saxophone2_score revDTW_0322fullset_': np.arange(43)
-               }'''
-FeatureList = {'middleAlto Saxophone5_score revDTW_0327fullsetwithdDyn_': np.concatenate([np.arange(26), np.arange(41,51)])}
-FeatureNum = 36 # 68+24+22+4+7+6+4
+FeatureList = {'middleAlto Saxophone5_score revDTW_SightReading_': np.arange(32)}
+FeatureNum = 32
 DataSize = {2013: 120, 2014: 149, 2015: 122}
-# Npitch 1
-# Spitch 1
-# Spitch 2
-# Ndynamic 1
-# Ndynamic 2
-# NIOI
-# SIOI
-# Sdtw
-# Sjump
-## Snlr3
-# Snlr4
-subIndex = np.array([1,2,3,4,5,6,7,8,\
-                     13,22,23,14,24,25,\
-                     0,21,34,35,\
-                     15,16,17,18,19,20,\
-                     26,27,28,29,30,31,32,33])
-'''
-np.array([69,70,71,72, \
-                     93,94,95,96, \
-                     97,98,99,100, \
-                     77,78,79,80, \
-                     81,82,83,84, \
-                     86,87,88,89,90,91, \
-                     107,108,109,110,111,112, \
-                     105,106, \
-                     114,115,116,117, \
-                     #125,126,127,128,129,130, \
-                     133,134])
-'''
+
 def combineAllFeatures():
     AllFeatures = np.empty(shape = [0, FeatureNum])
     AllLabels = np.empty(shape = [0, 4])
@@ -156,6 +115,6 @@ def runPCA(features):
 
 if __name__ == '__main__':
     features, labels, student_ids = combineAllFeatures()
-    features = features[:, subIndex]
+
     v_ratio, trans, mtx = runPCA(features)
         
